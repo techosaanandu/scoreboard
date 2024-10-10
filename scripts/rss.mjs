@@ -56,8 +56,7 @@
 //   }
 // }
 
-// const rss = () => {
-//   generateRSS(siteMetadata, allBlogs)
- 
-// }
-// export default rss
+const rss = () => {
+  return '5'
+}
+export default rss
