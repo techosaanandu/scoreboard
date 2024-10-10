@@ -6,12 +6,8 @@ import { signIn } from 'next-auth/react'; // Assuming you are using next-auth
 import { LoadingOutlined } from '@ant-design/icons';
 import toast, { Toaster } from 'react-hot-toast';
 
-interface Props {
-  children: React.ReactNode;
-  content: Omit<Authors, '_id' | '_raw' | 'body'>;
-}
 
-export default function AuthorLayout({ children, content }: Props) {
+export default function AuthorLayout() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
