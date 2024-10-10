@@ -92,6 +92,17 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 
+// Define types for school and events
+type Event = {
+  category: string;
+  score: number;
+};
+
+type School = {
+  schoolName: string;
+  eventsParticipated: Event[];
+};
+
 const CategoryDetails = () => {
   const params = useParams();
   let { categoryDetails } = params;
@@ -102,7 +113,7 @@ const CategoryDetails = () => {
   }
   categoryDetails = decodeURIComponent(categoryDetails);
   
-  const [schools, setSchools] = useState([]);
+  const [schools, setSchools] = useState<School[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -179,4 +190,3 @@ const CategoryDetails = () => {
 };
 
 export default CategoryDetails;
-
