@@ -1,50 +1,121 @@
-import { ReactNode } from 'react'
-import type { Authors } from 'contentlayer/generated'
-import SocialIcon from '@/components/social-icons'
-import Image from '@/components/Image'
+'use client'
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react'; // Assuming you are using next-auth
+import { LoadingOutlined } from '@ant-design/icons';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface Props {
-  children: ReactNode
-  content: Omit<Authors, '_id' | '_raw' | 'body'>
+  children: React.ReactNode;
+  content: Omit<Authors, '_id' | '_raw' | 'body'>;
 }
 
 export default function AuthorLayout({ children, content }: Props) {
-  const { name, avatar, occupation, company, email, twitter, linkedin, github } = content
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      setLoading(false);
+      return;
+    }
+   
+
+    // await fetch('/api/register', {
+    //   cache: 'no-store',
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'applications/json',
+    //   },
+    //   body: JSON.stringify({username: email, password})
+    // })
+
+    // SignIn logic using next-auth or custom logic
+    const res = await signIn('credentials', {
+      username: email,
+      password,
+      redirect: false
+    });
+
+    if (res?.error) {
+      setLoading(false);
+      toast.error("Invalid credentials")
+      console.log(res.error)
+      setError('Incorrect email or password');
+    } else {
+      setLoading(false);
+      toast.success("Login Successfull")
+      router.push('/dashboard'); // Redirect to dashboard on successful login
+    }
+  };
 
   return (
-    <>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            About
-          </h1>
-        </div>
-        <div className="items-start space-y-2 xl:grid xl:grid-cols-3 xl:gap-x-8 xl:space-y-0">
-          <div className="flex flex-col items-center space-x-2 pt-8">
-            {avatar && (
-              <Image
-                src={avatar}
-                alt="avatar"
-                width={192}
-                height={192}
-                className="h-48 w-48 rounded-full"
+    <div className="flex flex-col">
+      <div className="flex items-center justify-center space-y-2 pb-10 pt-6 md:space-y-5">
+        <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+          Login
+        </h1>
+      </div>
+      <div className="flex-grow h-[500px] mx-5 flex items-center justify-center">
+        <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
+          <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-gray-100">
+            Login
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="off"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                required
               />
-            )}
-            <h3 className="pb-2 pt-4 text-2xl font-bold leading-8 tracking-tight">{name}</h3>
-            <div className="text-gray-500 dark:text-gray-400">{occupation}</div>
-            <div className="text-gray-500 dark:text-gray-400">{company}</div>
-            <div className="flex space-x-3 pt-6">
-              <SocialIcon kind="mail" href={`mailto:${email}`} />
-              <SocialIcon kind="github" href={github} />
-              <SocialIcon kind="linkedin" href={linkedin} />
-              <SocialIcon kind="x" href={twitter} />
             </div>
-          </div>
-          <div className="prose max-w-none pb-8 pt-8 dark:prose-invert xl:col-span-2">
-            {children}
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-md bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-400"
+            >
+              {loading ? <LoadingOutlined /> : 'Login'}
+            </button>
+            {error && (
+              <p className="text-sm text-center text-red-500">{error}</p>
+            )}
+          </form>
+          <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-3">
+            Can't sign-in?{' '}
+            <a href="mailto:techosaanandu@gmail.com" className="text-blue-600 hover:underline">
+              Contact us
+            </a>
+          </p>
         </div>
       </div>
-    </>
-  )
+    </div>
+  );
 }

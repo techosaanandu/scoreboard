@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 .task-list-item::before {
   @apply hidden;
 }
@@ -58,3 +60,4 @@ input:-webkit-autofill:focus {
   display: inline-block;
   vertical-align: middle;
 }
+

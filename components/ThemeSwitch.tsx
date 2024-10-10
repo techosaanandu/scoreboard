@@ -9,7 +9,7 @@ const Sun = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"
-    className="group:hover:text-gray-100 h-6 w-6"
+    className="group:hover:text-gray-100 h-6 w-6 text-white"
   >
     <path
       fillRule="evenodd"
