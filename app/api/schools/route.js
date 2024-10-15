@@ -6,7 +6,7 @@ export async function POST(request){
     try {
        await mongoose.connect(process.env.MONGO_URI)
        const {schoolName, schoolCode, schoolLoc} = await request.json();
-       const school = await School.findOne({schoolName})
+       const school = await School.findOne({schoolCode})
        if(school) {
         return NextResponse.json({message: 'already added'})
        }
