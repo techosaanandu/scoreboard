@@ -40,6 +40,6 @@
     ".contentlayer/generated",
     ".contentlayer/generated/**/*.json",
     ".next/types/**/*.ts"
-, "app/dashboard/page.jsx", "app/dashboard/UpdatePoints/page.jsx", "app/sign-in/page.jsx", "layouts/ListLayout.jsx", "layouts/ListLayoutWithTags.jsx", "layouts/AuthorLayout.jsx", "components/Card.jsx", "app/dashboard/ParticipationPoints/page.jsx", "app/dashboard/admin/page.jsx", "app/events/[eventdetails]/page.jsx"  ],
+, "app/dashboard/page.jsx", "app/dashboard/UpdatePoints/page.jsx", "app/sign-in/page.jsx", "layouts/ListLayout.jsx", "layouts/ListLayoutWithTags.jsx", "layouts/AuthorLayout.jsx", "components/Card.jsx", "app/dashboard/ParticipationPoints/page.jsx", "app/dashboard/admin/page.jsx", "app/events/[eventdetails]/page.jsx", "app/page.jsx", "app/school/page.jsx"  ],
   "exclude": ["node_modules"]
 }
