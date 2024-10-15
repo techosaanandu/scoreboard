@@ -86,7 +86,7 @@ const UpdatePointsPage = () => {
             <option value="Category 2">Category 2</option>
             <option value="Category 3">Category 3</option>
             <option value="Category 4">Category 4</option>
-            <option value="Category 5">Category 5</option>
+            <option value="Common">Common</option>
           </select>
         </div>
 
