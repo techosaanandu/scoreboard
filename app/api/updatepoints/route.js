@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
-import { School } from "../../../models/schoolSchema";
+import { Participant } from "../../../models/participantSchema";
 
 export async function POST(request) {
   try {
@@ -8,37 +8,34 @@ export async function POST(request) {
     await mongoose.connect(process.env.MONGO_URI);
 
     // Destructure request body
-    const { selectedSchool, category, event, points, schoolCode } = await request.json();
+    const { schoolId, eventId, category, participants } = await request.json();
 
-    // Find the school by its code
-    const school = await School.findOne({ schoolCode });
-    if (!school) {
-      return NextResponse.json({ message: "School not found", status: 404 });
+    // Validate input
+    if (!schoolId || !eventId || !category || !participants || !participants.length) {
+      return NextResponse.json({ message: "Invalid input", status: 400 });
     }
 
-    // Check if the event already exists for this school
-    const existingEventIndex = school.eventsParticipated.findIndex(
-      (e) => e.eventName === event && e.category === category
-    );
+    // Check if a participant document already exists for this school/event/category
+    const existingParticipant = await Participant.findOne({ schoolId, eventId, category });
 
-    if (existingEventIndex !== -1) {
-      // Update the score if the event already exists
-      school.eventsParticipated[existingEventIndex].score = points;
+    if (existingParticipant) {
+      // If the document exists, update it by adding new participants to the names array
+      existingParticipant.names.push(...participants);
+      await existingParticipant.save();
     } else {
-      // Add a new event if it doesn't exist
-      school.eventsParticipated.push({
-        eventName: event,
-        score: points,
-        category: category,
+      // Create a new participant document
+      const newParticipant = new Participant({
+        names: participants, // Store all participant names in the array
+        schoolId,
+        eventId,
+        category,
       });
+      await newParticipant.save();
     }
 
-    // Save the updated school document
-    await school.save();
-
-    return NextResponse.json({ message: "School points updated successfully" });
+    return NextResponse.json({ message: "Participants added successfully", status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: "Internal server error", status: 500 });
+    return NextResponse.json({ message: "Error adding participants", status: 500 });
   }
 }

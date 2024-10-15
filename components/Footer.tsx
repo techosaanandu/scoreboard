@@ -4,9 +4,11 @@ import SocialIcon from '@/components/social-icons'
 
 export default function Footer() {
   return (
-    <footer>
-      <div className=" flex flex-col items-center p-4">
-        <div className="flex space-x-4">
+    <footer className="">
+      <div className="flex flex-col  ">
+        
+       
+        {/* <div className="flex space-x-4">
           <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} />
           <SocialIcon kind="github" href={siteMetadata.github} size={6} />
           <SocialIcon kind="facebook" href={siteMetadata.facebook} size={6} />
@@ -23,10 +25,10 @@ export default function Footer() {
           <div>{`© ${new Date().getFullYear()}`}</div>
           <div>{` • `}</div>
           <Link href="/">{siteMetadata.title}</Link>
-        </div>
-        <div className="mb text-sm text-gray-500 dark:text-gray-400">
+        </div> */}
+        {/* <div className="mb text-sm text-gray-500 dark:text-gray-400">
           <Link href="#">SchoolName</Link>
-        </div>
+        </div> */}
       </div>
     </footer>
   )

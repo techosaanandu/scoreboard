@@ -3,12 +3,17 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { Fragment, useState, useEffect, useRef } from 'react'
-import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
+import Link from "next/link"
+import { useSession } from 'next-auth/react'
+import {useRouter} from 'next/navigation'
+import { signOut } from 'next-auth/react'
 
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
   const navRef = useRef(null)
+  const { data: session, status } = useSession()
+  const router = useRouter()
 
   const onToggleNav = () => {
     setNavShow((status) => {
@@ -33,7 +38,7 @@ const MobileNav = () => {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
-          className="h-8 w-8 text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400"
+          className="h-8 w-8 text-white hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400"
         >
           <path
             fillRule="evenodd"
@@ -67,21 +72,21 @@ const MobileNav = () => {
             leaveTo="translate-x-full opacity-0"
             unmount={false}
           >
-            <Dialog.Panel className="fixed left-0 top-0 z-70 h-full w-full bg-white opacity-95 duration-300 dark:bg-gray-950 dark:opacity-[0.98]">
+            <Dialog.Panel className="fixed left-0 top-0 z-70 h-full w-full bg-blue-300 opacity-95 duration-300 dark:bg-gray-950 dark:opacity-[0.98] py-10">
               <nav
                 ref={navRef}
-                className="mt-8 flex h-full basis-0 flex-col items-start overflow-y-auto pl-12 pt-2 text-left"
+                className="mt-8 flex h-full basis-0 flex-col gap-4 items-start overflow-y-auto pl-12 pt-10 text-left"
               >
-                {headerNavLinks.map((link) => (
-                  <Link
-                    key={link.title}
-                    href={link.href}
-                    className="mb-4 py-2 pr-4 text-2xl font-bold tracking-widest text-gray-900 outline outline-0 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400"
-                    onClick={onToggleNav}
-                  >
-                    {link.title}
-                  </Link>
-                ))}
+               {status === 'authenticated' 
+               ? 
+               <>
+               <Link onClick={onToggleNav} href="/dashboard"><div className="text-xl font-bold bg-white px-3 py-2 rounded-lg">Dashboard</div></Link>
+               <p onClick={()=>{
+                signOut().then(()=>router.push('/'))
+               }} ><div className="text-xl font-bold bg-white px-3 py-2 rounded-lg">Signout</div></p>
+               </> 
+               : 
+               <Link onClick={onToggleNav} href="/sign-in"><div className="text-xl font-bold">LOGIN</div></Link>}
               </nav>
 
               <button

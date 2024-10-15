@@ -31,7 +31,7 @@ const categories = [
 
 const CategoriesPage = () => {
   return (
-    <div className="h-[550px] w-full overflow-auto rounded-lg border border-gray-300 dark:border-gray-700">
+    <div className="h-[500px] md:h-[600px] w-full overflow-auto rounded-lg border border-gray-300 dark:border-gray-700">
       <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
         <thead>
           <tr className="bg-blue-900 dark:bg-gray-800">

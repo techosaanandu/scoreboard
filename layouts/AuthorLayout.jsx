@@ -54,18 +54,18 @@ export default function AuthorLayout() {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex items-center justify-center space-y-2 pb-10 pt-6 md:space-y-5">
-        <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+    <div className="flex flex-col m-4">
+      {/* <div className="flex items-center justify-center space-y-2 m-4 pt-10 md:space-y-5">
+        <h1 className="text-3xl font-extrabold  tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
           Login
         </h1>
-      </div>
-      <div className="flex-grow h-[500px] mx-5 flex items-center justify-center">
-        <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
+      </div> */}
+      <div className="flex-grow h-[600px] mx-5 flex items-center justify-center">
+        <div className="w-full max-w-md rounded-lg bg-white p-4 shadow-lg dark:bg-gray-800">
           <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-gray-100">
             Login
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 py-2">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email
@@ -76,7 +76,7 @@ export default function AuthorLayout() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="off"
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 mb-4 shadow-sm focus:outline-none focus:ring focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
                 required
               />
             </div>
@@ -89,7 +89,7 @@ export default function AuthorLayout() {
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 mb-4 shadow-sm focus:outline-none focus:ring focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-300"
                 required
               />
             </div>
@@ -104,7 +104,7 @@ export default function AuthorLayout() {
               <p className="text-sm text-center text-red-500">{error}</p>
             )}
           </form>
-          <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-3">
+          <p className="text-center text-sm text-gray-500 dark:text-gray-400 my-4">
             Can't sign-in?{' '}
             <a href="mailto:techosaanandu@gmail.com" className="text-blue-600 hover:underline">
               Contact us

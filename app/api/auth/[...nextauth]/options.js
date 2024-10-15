@@ -1,5 +1,4 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcryptjs from "bcryptjs";
 import mongoose from "mongoose";
 import { Admin } from "../../../../models/adminSchema";
 

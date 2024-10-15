@@ -160,7 +160,7 @@ const CategoryDetails = () => {
   }
 
   return (
-    <div className="h-[600px] overflow-auto rounded-lg border border-gray-300 dark:border-gray-700 my-10 mx-10">
+    <div className="h-[600px] overflow-auto rounded-lg border border-gray-300 dark:border-gray-700 my-5 mx-10">
       <table className="min-w-full divide-gray-200 dark:divide-gray-700">
         <thead>
           <tr className="bg-blue-900 dark:bg-gray-800">

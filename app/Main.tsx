@@ -11,11 +11,11 @@ export default function Home({ posts }) {
   return (
     <>
       <div
-        className=" bg-center bg-cover"
+        className=" bg-center bg-cover h-full"
         style={{
           // backgroundImage: `url('/static/images/bag2.jpeg')`, 
           // backgroundSize: '88%',
-         
+
         }}
       >
         <div className="space-y-2 p-3 md:space-y-5">
@@ -42,6 +42,10 @@ export default function Home({ posts }) {
               Category
             </button>
           </Link>
+
+        </div>
+        <div className="flex justify-end m-6 font-mono text-black">
+          Powered by  Techosa
         </div>
       </div>
     </>

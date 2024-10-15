@@ -29,7 +29,7 @@ export default function ListLayoutWithTags({
 
   return (
     <>
-      <h1 className="text-3xl mx-6 my-6 font-extrabold leading-9 tracking-tight text-gray-900 dark:text-cyan-400 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+      <h1 className="text-3xl mx-6 my-5 font-extrabold leading-9 tracking-tight text-gray-900 dark:text-cyan-400 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
         Schools
       </h1>
       <div className="m-4 flex justify-center">

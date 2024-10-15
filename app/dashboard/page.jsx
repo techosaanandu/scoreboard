@@ -76,6 +76,9 @@ const Admin = () => {
   const handleUpdatePointsClick = () => {
     router.push('/dashboard/UpdatePoints'); // Navigate to the update points page
   };
+  const handleParticipationPoints = () => {
+    router.push('/dashboard/ParticipationPoints'); // Navigate to the update points page
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -84,7 +87,16 @@ const Admin = () => {
         <div>
           <button
             type="submit"
-            className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+            className="bg-blue-500 text-white font-semibold py-2 px-2 m-2 rounded hover:bg-blue-600 transition duration-200"
+            onClick={handleParticipationPoints}
+          >
+            Participation 
+          </button>
+        </div>
+        <div>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white font-semibold py-2 px-2 rounded hover:bg-blue-600 transition duration-200"
             onClick={handleUpdatePointsClick}
           >
             Update Points
