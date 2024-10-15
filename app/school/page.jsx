@@ -34,7 +34,7 @@ import ListLayout from '@/layouts/ListLayoutWithTags'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import { allBlogs } from 'contentlayer/generated'
 import { genPageMetadata } from 'app/seo'
-import { Post } from 'your-types-path'; // Adjust this import as needed
+// import { Post } from 'your-types-path'; // Adjust this import as needed
 
 const POSTS_PER_PAGE = 5
 
