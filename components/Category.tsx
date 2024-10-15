@@ -23,8 +23,8 @@ const categories = [
   },
   {
     id: 5,
-    name: 'Category 5',
-    link: '/category/Category 5',
+    name: 'Common',
+    link: '/category/Common',
   },
   // Add more categories as needed
 ]
