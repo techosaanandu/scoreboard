@@ -10,7 +10,7 @@ const TopPositions = ({ positions }) => {
           <div className={`w-36 h-36 rounded-full ${index === 0 ? 'bg-gradient-to-r from-yellow-400 to-yellow-500' : index === 1 ? 'bg-gray-400' : 'bg-orange-400'} flex items-center justify-center text-white text-5xl font-bold shadow-lg`}>
             {index + 1}
           </div>
-          <h3 className="mt-4 text-lg font-semibold text-gray-800">{position.name.join(', ')}</h3>
+          <h3 className="mt-4 text-lg font-semibold text-gray-800">{position.name}</h3>
           {/* <p className="text-sm text-gray-600">Score: {position.score}</p> */}
         </div>
       ))}
@@ -27,6 +27,72 @@ const TailwindInfo = () => {
   const { eventdetails } = params;
 
   useEffect(() => {
+    // const fetchSchoolsAndEvents = async () => {
+    //   try {
+    //     const response = await fetch('/api/getvalues', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify({}),
+    //     });
+    //     const data = await response.json();
+
+    //     const selectedEvent = data.events.find(event => event._id === eventdetails);
+    //     if (selectedEvent) {
+    //       setEventTitle(selectedEvent.title);
+
+    //       const filteredSchools = data.schools.filter(school => 
+    //         school.eventsParticipated.some(event => event.eventName === selectedEvent.title)
+    //       );
+
+    //       const schoolsWithPoints = filteredSchools.map(school => {
+    //         const totalPoints = school.eventsParticipated.reduce((acc, event) => acc + event.score, 0);
+    //         return { ...school, totalPoints };
+    //       });
+
+    //       const sortedSchools = schoolsWithPoints.sort((a, b) => b.totalPoints - a.totalPoints);
+    //       setAvailableSchools(sortedSchools);
+
+
+    //       const res = await fetch('/api/participants', {
+    //         method: 'POST',
+    //         headers: {
+    //           'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ eventTitle: selectedEvent.title }),
+    //       })
+
+    //       const data2 = await res.json()
+
+    //       // // Fetch participants for the selected event
+    //       const eventParticipants = data2.participants.filter(participant => participant.eventId === selectedEvent.title);
+
+    //       console.log(eventParticipants)
+
+    //       // Calculate top three participants
+    //       const topParticipants = eventParticipants
+    //         .map(participant => ({
+    //           name: participant.names, // Adjust if you want to show more than one name 
+    //           schoolId: participant.schoolId // Get the school ID
+    //         }))
+    //         .sort((a, b) => b.score - a.score)
+    //         .slice(0, 3); // Get top 3 participants
+
+    //       // Fetch school names for top participants
+    //       // const topParticipantsWithSchoolNames = await Promise.all(topParticipants.map(async (top) => {
+    //       //   const school = await fetch(`/api/schools/${top.schoolId}`); // Replace with your school fetching logic
+    //       //   const schoolData = await school.json();
+    //       //   return { ...top, schoolName: schoolData.schoolName }; // Assuming the API returns the school name
+    //       // }));
+
+    //       setTopThreeParticipants(topParticipants);
+    //     }
+
+    //   } catch (error) {
+    //     console.error('Error fetching schools or events:', error);
+    //   }
+    // };
     const fetchSchoolsAndEvents = async () => {
       try {
         const response = await fetch('/api/getvalues', {
@@ -37,62 +103,78 @@ const TailwindInfo = () => {
           body: JSON.stringify({}),
         });
         const data = await response.json();
-
+    
         const selectedEvent = data.events.find(event => event._id === eventdetails);
         if (selectedEvent) {
           setEventTitle(selectedEvent.title);
-
+    
+          // Get the filtered schools participating in the selected event
           const filteredSchools = data.schools.filter(school => 
             school.eventsParticipated.some(event => event.eventName === selectedEvent.title)
           );
 
+          //       const schoolsWithPoints = filteredSchools.map(school => {
+          //   const totalPoints = school.eventsParticipated.reduce((acc, event) => acc + event.score, 0);
+          //   return { ...school, totalPoints };
+          // });
+
           const schoolsWithPoints = filteredSchools.map(school => {
-            const totalPoints = school.eventsParticipated.reduce((acc, event) => acc + event.score, 0);
+            const totalPoints = school.eventsParticipated.reduce((acc, event) => {
+              // Only count points for the selected event
+              return event.eventName === selectedEvent.title ? acc + event.score : acc;
+            }, 0);
             return { ...school, totalPoints };
           });
 
           const sortedSchools = schoolsWithPoints.sort((a, b) => b.totalPoints - a.totalPoints);
           setAvailableSchools(sortedSchools);
-
-
+    
+          // Create a mapping of schoolId to total score
+          const schoolScoresMap = {};
+          filteredSchools.forEach(school => {
+            school.eventsParticipated.forEach(event => {
+              if (event.eventName === selectedEvent.title) {
+                if (!schoolScoresMap[school._id]) {
+                  schoolScoresMap[school._id] = {
+                    totalPoints: 0,
+                    schoolName: school.schoolName
+                  };
+                }
+                schoolScoresMap[school._id].totalPoints += event.score;
+              }
+            });
+          });
+    
+          // Get all participants for the selected event
           const res = await fetch('/api/participants', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({ eventTitle: selectedEvent.title }),
-          })
-
-          const data2 = await res.json()
-
-          // // Fetch participants for the selected event
+          });
+    
+          const data2 = await res.json();
+    
           const eventParticipants = data2.participants.filter(participant => participant.eventId === selectedEvent.title);
-
-          console.log(eventParticipants)
-
-          // Calculate top three participants
+    
+          // Calculate top three participants based on the scores from schoolScoresMap
           const topParticipants = eventParticipants
             .map(participant => ({
-              name: participant.names, // Adjust if you want to show more than one name 
-              schoolId: participant.schoolId // Get the school ID
+              name: participant.names.join(', '), // Join names if there are multiple
+              schoolId: participant.schoolId,
+              totalPoints: schoolScoresMap[participant.schoolId]?.totalPoints || 0 // Get the score from the map
             }))
-            .sort((a, b) => b.score - a.score)
+            .sort((a, b) => b.totalPoints - a.totalPoints) // Sort by totalPoints
             .slice(0, 3); // Get top 3 participants
-
-          // Fetch school names for top participants
-          // const topParticipantsWithSchoolNames = await Promise.all(topParticipants.map(async (top) => {
-          //   const school = await fetch(`/api/schools/${top.schoolId}`); // Replace with your school fetching logic
-          //   const schoolData = await school.json();
-          //   return { ...top, schoolName: schoolData.schoolName }; // Assuming the API returns the school name
-          // }));
-
+    
           setTopThreeParticipants(topParticipants);
         }
-
       } catch (error) {
         console.error('Error fetching schools or events:', error);
       }
     };
+    
 
     fetchSchoolsAndEvents();
   }, [eventdetails]);
