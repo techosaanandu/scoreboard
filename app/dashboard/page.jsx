@@ -27,7 +27,7 @@ const Admin = () => {
       body: JSON.stringify({ schoolName, schoolCode, schoolLoc }),
     });
     const { message } = await response.json()
-    console.log(message)
+    
     if (message === "school Added") {
       toast.success("School Added Successfully")
     }
@@ -106,7 +106,7 @@ const Admin = () => {
 
 
       <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Add School</h2>
+        <h2 className="text-xl font-semibold mb-4 text-black">Add School</h2>
         <form onSubmit={handleAddSchool}>
           <input
             type="text"
@@ -114,7 +114,7 @@ const Admin = () => {
             value={schoolName}
             onChange={(e) => setSchoolName(e.target.value)}
             required
-            className="border border-gray-300 p-2 rounded w-full mb-4"
+            className="border border-gray-300 p-2 rounded w-full mb-4 dark:text-black"
           />
           <input
             type="text"
@@ -122,7 +122,7 @@ const Admin = () => {
             value={schoolCode}
             onChange={(e) => setSchoolCode(e.target.value)}
             required
-            className="border border-gray-300 p-2 rounded w-full mb-4"
+            className="border border-gray-300 p-2 rounded w-full mb-4  dark:text-black"
           />
           <input
             type="text"
@@ -130,7 +130,7 @@ const Admin = () => {
             value={schoolLoc}
             onChange={(e) => setSchoolLoc(e.target.value)}
             required
-            className="border border-gray-300 p-2 rounded w-full mb-4"
+            className="border border-gray-300 p-2 rounded w-full mb-4  dark:text-black"
           />
           <button
             type="submit"
@@ -150,7 +150,7 @@ const Admin = () => {
             value={eventTitle}
             onChange={(e) => setEventTitle(e.target.value)}
             required
-            className="border border-gray-300 p-2 rounded w-full mb-4"
+            className="border border-gray-300 p-2 rounded w-full mb-4  dark:text-black"
           />
           <input
             type="text"
@@ -158,7 +158,7 @@ const Admin = () => {
             value={eventDate}
             onChange={(e) => setEventDate(e.target.value)}
             required
-            className="border border-gray-300 p-2 rounded w-full mb-4"
+            className="border border-gray-300 p-2 rounded w-full mb-4  dark:text-black"
           />
           <input
             type="text"
@@ -166,7 +166,7 @@ const Admin = () => {
             value={eventTime}
             onChange={(e) => setEventTime(e.target.value)}
             required
-            className="border border-gray-300 p-2 rounded w-full mb-4"
+            className="border border-gray-300 p-2 rounded w-full mb-4  dark:text-black"
           />
           <button
             type="submit"

@@ -42,7 +42,7 @@ export default function ParticipationForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(selectedSchool, event, category)
+        
         try{
             if(!selectedSchool || !event || !category ){
                 toast.error('please fill the fields!')

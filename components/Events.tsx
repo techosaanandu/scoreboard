@@ -107,7 +107,7 @@ const Events = () => {
   }, []);
 
   const handleEventClick = (event: Event) => {
-    router.push(`/events/${event._id}`); 
+    router.push(`/events/${event._id}/category`); 
   };
 
   return (

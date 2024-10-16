@@ -1,7 +1,8 @@
 import mongoose, { connect } from 'mongoose'
-import {Event} from '../../../../../models/eventsSchema'
-import {Participant} from '../../../../../models/participantSchema'
-import {School} from '../../../../../models/schoolSchema'
+import {Event} from '../../../../../../../models/eventsSchema'
+import {Participant} from '../../../../../../../models/participantSchema'
+import {School} from '../../../../../../../models/schoolSchema'
+
 
 const TopPositions = ({ positions }) => {
 

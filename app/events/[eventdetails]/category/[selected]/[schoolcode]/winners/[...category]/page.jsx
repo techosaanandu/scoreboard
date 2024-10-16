@@ -1,13 +1,13 @@
 
 
 import mongoose, { connect } from 'mongoose';
-import { School } from '../../../../../../models/schoolSchema';
-import { Participant } from '../../../../../../models/participantSchema';
-import {Event} from '../../../../../../models/eventsSchema'
+import { School } from '../../../../../../../../models/schoolSchema';
+import { Participant } from '../../../../../../../../models/participantSchema';
+import {Event} from '../../../../../../../../models/eventsSchema'
 
 const TopPositions = ({ positions }) => {
 
-    console.log(positions.names)
+
     if (!positions || positions.length === 0) {
       return <div>No top participants available.</div>;
     }

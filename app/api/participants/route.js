@@ -10,7 +10,7 @@ export async function POST(request) {
     // Destructure request body
     const { eventTitle } = await request.json();
 
-    console.log(eventTitle)
+   
 
     // Validate input
     if (!eventTitle ) {
@@ -20,7 +20,7 @@ export async function POST(request) {
     // Check if a participant document already exists for this school/event/category
     const existingParticipants = await Participant.find({ eventId: eventTitle });
 
-    console.log(existingParticipants)
+  
 
     return NextResponse.json({ participants: existingParticipants, message: "participants", status: 200 });
 

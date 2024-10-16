@@ -13,12 +13,14 @@ export async function POST(request) {
     // Check for duplicate event by title, date, and time
     const existingEvent = await Event.find({});
     const existingSchools= await School.find({});
+   
  
 
     const response={
         schools: existingSchools,
         events: existingEvent,
     }
+
     
     // Return success response
     return NextResponse.json(response);

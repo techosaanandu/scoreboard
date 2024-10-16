@@ -32,7 +32,7 @@ const UserTable = () => {
 
         // Filter schools that have participated in the specified event and category
         const filteredSchools = data.schools.filter((school) =>
-          school.eventsParticipated.some(
+          school.eventsParticipated.filter(
             (event) =>
               event.eventName === eventParam && event.category === categoryParam
           )
@@ -62,11 +62,10 @@ const UserTable = () => {
 
         const data2 = await res.json();
 
-        console.log(1,data2.participants)
+      
 
         const participantsArray = Array.isArray(data2.participants) ? data2.participants : [];
 
-        console.log(2,participantsArray)
 
       // Map participants to the respective schools
       const schoolsWithParticipants = sortedSchools.map((school) => {
@@ -141,7 +140,7 @@ const UserTable = () => {
       (item) => item.eventName === event && item.category === category
     );
     const participantsList = participants[index] || eventObj.participants;
-    console.log(participantsList)
+
     const schoolId = school._id;
 
     try {
@@ -164,7 +163,7 @@ const UserTable = () => {
 
       const data = await response.json()
 
-      console.log(data)
+  
 
       toast .success("Update successful");
       setEditing((prev) => ({ ...prev, [index]: false }));

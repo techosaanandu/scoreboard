@@ -1,24 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 
-// const TopPositions = ({ positions }) => {
-//   return (
-//     <div className="flex justify-center space-x-14 mt-10 pb-14">
-//       {positions.map((position, index) => (
-//         <div key={index} className="flex flex-col items-center transition-transform transform hover:scale-105">
-//           <div className={`w-36 h-36 rounded-full ${index === 0 ? 'bg-gradient-to-r from-yellow-400 to-yellow-500' : index === 1 ? 'bg-gray-400' : 'bg-orange-400'} flex items-center justify-center text-white text-5xl font-bold shadow-lg`}>
-//             {index + 1}
-//           </div>
-//           <h3 className="mt-4 text-lg font-semibold text-gray-800">{position.name}</h3>
-//           {/* <p className="text-sm text-gray-600">Score: {position.score}</p> */}
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
 
 const TailwindInfo = () => {
+  const searchParams = useSearchParams();
+  const category = searchParams.get('category');
+
   const [availableSchools, setAvailableSchools] = useState([]);
   const [topThreeParticipants, setTopThreeParticipants] = useState([]); // Initialize state for top three participants
   const [eventTitle, setEventTitle] = useState('');
@@ -38,6 +26,8 @@ const TailwindInfo = () => {
           body: JSON.stringify({}),
         });
         const data = await response.json();
+
+     
     
         const selectedEvent = data.events.find(event => event._id === eventdetails);
         if (selectedEvent) {
@@ -45,8 +35,10 @@ const TailwindInfo = () => {
     
           // Get the filtered schools participating in the selected event
           const filteredSchools = data.schools.filter(school => 
-            school.eventsParticipated.some(event => event.eventName === selectedEvent.title)
+            school.eventsParticipated.some(event => event.eventName === selectedEvent.title && event.category === category)
           );
+
+          console.log('filter',filteredSchools, category)
 
           //       const schoolsWithPoints = filteredSchools.map(school => {
           //   const totalPoints = school.eventsParticipated.reduce((acc, event) => acc + event.score, 0);
@@ -56,14 +48,14 @@ const TailwindInfo = () => {
           const schoolsWithPoints = filteredSchools.map(school => {
             const totalPoints = school.eventsParticipated.reduce((acc, event) => {
               // Only count points for the selected event
-              return event.eventName === selectedEvent.title ? acc + event.score : acc;
+              return event.eventName === selectedEvent.title && event.category === category ? acc + event.score : acc;
             }, 0);
             return { ...school, totalPoints };
           });
 
           const sortedSchools = schoolsWithPoints.sort((a, b) => b.totalPoints - a.totalPoints);
           setAvailableSchools(sortedSchools);
-          console.log(sortedSchools)
+
     
           // Create a mapping of schoolId to total score
           const schoolScoresMap = {};
@@ -91,6 +83,7 @@ const TailwindInfo = () => {
           });
     
           const data2 = await res.json();
+
     
           const eventParticipants = data2.participants.filter(participant => participant.eventId === selectedEvent.title);
     
@@ -116,7 +109,7 @@ const TailwindInfo = () => {
   }, [eventdetails]);
 
   const handleRowClick = (schoolCode) => {
-    router.push(`/events/${eventdetails}/${schoolCode}/winners`);
+    router.push(`/events/${eventdetails}/category/${category}/${schoolCode}/winners`);
   };
 
   return (
@@ -150,7 +143,7 @@ const TailwindInfo = () => {
                   <td className="px-4 py-4 text-2xl text-gray-900 dark:text-gray-100">{item.schoolCode}</td>
                   <td onClick={() => handleRowClick(item.schoolCode)} className="px-4 py-4 text-2xl text-blue-900 font-bold dark:text-cyan-400 cursor-pointer hover:underline">{item.schoolName}</td>
                   <td className="px-4 py-4 text-2xl text-gray-900 dark:text-gray-100">{item.totalPoints}</td>
-                  <td onClick={() => router.push(`/events/${eventdetails}/${item.schoolCode}/winners/${participatedEvent.category}`)} className="px-4 cursor-pointer hover:underline py-4 text-2xl text-gray-900 dark:text-gray-100">{participatedEvent ? participatedEvent.category:""}</td>
+                  <td onClick={() => router.push(`/events/${eventdetails}/category/${category}/${item.schoolCode}/winners/${participatedEvent.category}`)} className="px-4 cursor-pointer hover:underline py-4 text-2xl text-gray-900 dark:text-gray-100">{participatedEvent ? participatedEvent.category:""}</td>
                 </tr>
               )})}
             </tbody>
